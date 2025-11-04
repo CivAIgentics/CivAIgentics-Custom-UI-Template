@@ -1,4 +1,5 @@
 {
+  "name": "CivAIgentics_Custom_UI_Template",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "hostRequirements": {
     "cpus": 4
