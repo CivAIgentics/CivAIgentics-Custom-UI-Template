@@ -1,0 +1,42 @@
+<!-- CORRECTED IFRAME CODE FOR JACKY 2.0 WIDGET -->
+<!-- Copy this entire block and replace your current iframe code -->
+
+<div id="jacky-widget-container" style="position: fixed; bottom: 70px; left: -20px; z-index: 9999;">
+  <iframe 
+    id="jacky-widget" 
+    src="https://elevenlabs-nextjs-seven.vercel.app/widget" 
+    style="width: 290px; height: 150px; border: none; background: transparent; transition: all 0.3s ease;" 
+    allow="microphone; autoplay" 
+    title="Jacky 2.0 - City of Midland AI Assistant" 
+    scrolling="no">
+  </iframe>
+</div>
+
+<script>
+  window.addEventListener('message', function(event) {
+    // Production URL
+    if (event.origin === 'https://elevenlabs-nextjs-seven.vercel.app') {
+      var iframe = document.getElementById('jacky-widget');
+      
+      if (event.data.type === 'widgetExpanded') {
+        // Expand iframe to show full widget (increased height)
+        iframe.style.width = '460px';
+        iframe.style.height = '670px';
+        console.log('Widget expanded');
+      } else if (event.data.type === 'widgetCollapsed') {
+        // Collapse iframe back to button size
+        iframe.style.width = '290px';
+        iframe.style.height = '150px';
+        console.log('Widget collapsed');
+      }
+    }
+  });
+</script>
+
+<!-- 
+  KEY CHANGES FROM PREVIOUS VERSION:
+  - Production URL: https://elevenlabs-nextjs-seven.vercel.app
+  - Collapsed height: 130px → 150px (more padding)
+  - Expanded height: 650px → 670px (full widget visible)
+  - Fixed postMessage timing with useEffect
+-->

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jacky 2.0 Widget - Test Page</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    h1 {
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: #718096;
+      margin-bottom: 30px;
+    }
+    
+    .info-box {
+      background: #f7fafc;
+      border-left: 4px solid #667eea;
+      padding: 16px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    
+    .info-box h3 {
+      margin-top: 0;
+      color: #2d3748;
+    }
+    
+    .info-box p {
+      margin: 8px 0;
+      color: #4a5568;
+    }
+    
+    .status {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .status.collapsed {
+      background: #fed7d7;
+      color: #c53030;
+    }
+    
+    .status.expanded {
+      background: #c6f6d5;
+      color: #22543d;
+    }
+    
+    code {
+      background: #edf2f7;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    
+    .feature {
+      background: #f7fafc;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .feature h4 {
+      margin: 0 0 8px 0;
+      color: #2d3748;
+    }
+    
+    .feature p {
+      margin: 0;
+      color: #718096;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Jacky 2.0 Widget Test Page</h1>
+    <p class="subtitle">Testing iframe integration with postMessage communication</p>
+    
+    <div class="info-box">
+      <h3>📊 Widget Status</h3>
+      <p><strong>Current State:</strong> <span class="status collapsed" id="widget-status">Collapsed</span></p>
+      <p><strong>Dimensions:</strong> <code id="dimensions">290px × 130px</code></p>
+      <p><strong>Origin:</strong> <code>https://elevenlabs-nextjs-ip9mgh85x-steven-sierra-alcabes-projects.vercel.app</code></p>
+    </div>
+    
+    <div class="info-box">
+      <h3>🎮 Instructions</h3>
+      <p><strong>1.</strong> Look for the Jacky widget button in the bottom-left corner</p>
+      <p><strong>2.</strong> Click the button to expand the widget</p>
+      <p><strong>3.</strong> Watch the status update above in real-time</p>
+      <p><strong>4.</strong> Try dragging the widget to reposition it</p>
+      <p><strong>5.</strong> Grant microphone permission to talk with Jacky</p>
+    </div>
+    
+    <div class="features">
+      <div class="feature">
+        <h4>✅ postMessage</h4>
+        <p>Widget communicates expand/collapse state to parent</p>
+      </div>
+      <div class="feature">
+        <h4>🎨 3D Orb</h4>
+        <p>Animated WebGL orb with pulse effects</p>
+      </div>
+      <div class="feature">
+        <h4>🎤 Voice & Text</h4>
+        <p>Talk or type to interact with Jacky</p>
+      </div>
+      <div class="feature">
+        <h4>📍 Draggable</h4>
+        <p>Move the widget anywhere on screen</p>
+      </div>
+    </div>
+    
+    <div class="info-box" style="margin-top: 30px;">
+      <h3>🔍 Console Messages</h3>
+      <p>Open browser DevTools to see real-time postMessage events:</p>
+      <p><code>Widget expanded</code> - When opening the widget</p>
+      <p><code>Widget collapsed</code> - When closing the widget</p>
+    </div>
+  </div>
+
+  <!-- Jacky 2.0 Widget Container -->
+  <div id="jacky-widget-container" style="position: fixed; bottom: 70px; left: -20px; z-index: 9999;">
+    <iframe 
+      id="jacky-widget" 
+      src="https://elevenlabs-nextjs-ip9mgh85x-steven-sierra-alcabes-projects.vercel.app/widget" 
+      style="width: 290px; height: 130px; border: none; background: transparent; transition: all 0.3s ease;" 
+      allow="microphone; autoplay" 
+      title="Jacky 2.0 - City of Midland AI Assistant" 
+      scrolling="no">
+    </iframe>
+  </div>
+
+  <script>
+    // Status indicator elements
+    const statusElement = document.getElementById('widget-status');
+    const dimensionsElement = document.getElementById('dimensions');
+    
+    // Listen for messages from the widget iframe
+    window.addEventListener('message', function(event) {
+      // Security: Only accept messages from the widget origin
+      if (event.origin === 'https://elevenlabs-nextjs-ip9mgh85x-steven-sierra-alcabes-projects.vercel.app') {
+        const iframe = document.getElementById('jacky-widget');
+        
+        if (event.data.type === 'widgetExpanded') {
+          // Expand iframe to show full widget
+          iframe.style.width = '460px';
+          iframe.style.height = '650px';
+          
+          // Update status display
+          statusElement.textContent = 'Expanded';
+          statusElement.className = 'status expanded';
+          dimensionsElement.textContent = '460px × 650px';
+          
+          console.log('✅ Widget expanded');
+        } else if (event.data.type === 'widgetCollapsed') {
+          // Collapse iframe back to button size
+          iframe.style.width = '290px';
+          iframe.style.height = '130px';
+          
+          // Update status display
+          statusElement.textContent = 'Collapsed';
+          statusElement.className = 'status collapsed';
+          dimensionsElement.textContent = '290px × 130px';
+          
+          console.log('✅ Widget collapsed');
+        }
+      } else {
+        console.warn('⚠️ Received message from unknown origin:', event.origin);
+      }
+    });
+    
+    console.log('🚀 Jacky 2.0 Widget Test Page loaded');
+    console.log('📡 Listening for postMessage events from widget...');
+  </script>
+</body>
+</html>

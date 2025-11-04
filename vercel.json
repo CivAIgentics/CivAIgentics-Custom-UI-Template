@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd City_of_Midland_Jacky2.0_Custom_UI && npm run build",
+  "outputDirectory": "City_of_Midland_Jacky2.0_Custom_UI/.next",
+  "devCommand": "cd City_of_Midland_Jacky2.0_Custom_UI && npm run dev",
+  "installCommand": "cd City_of_Midland_Jacky2.0_Custom_UI && npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"]
+}
